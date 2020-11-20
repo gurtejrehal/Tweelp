@@ -8,6 +8,9 @@
 
 <h2>Homepage</h2>
   <p>Hello {{ user.username }}!</p>
+{% if user.is_authenticated %}
+<a href="{% url 'auth_logout' %}">logout</a>
+{% endif %}
 
 </body>
 </html>

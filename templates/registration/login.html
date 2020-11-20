@@ -1,12 +1,134 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
 
-<a href="{% url 'social:begin' 'twitter' %}">Login with Twitter</a>
+<head>
+	<meta charset="utf-8" />
+	<title>Tweelp | Login</title>
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+	<meta content="" name="description" />
+	<meta content="" name="author" />
+	<link href="{% static 'css/app.min.css' %}" rel="stylesheet" />
+	<link href="{% static 'js/lang.js' %}" rel="stylesheet"/>
+	<link rel="shortcut icon" href="{% static 'img/logo.png' %}" type="favicon.png" />
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Dosis:wght@400;800&display=swap" rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<style>
+.head-title{
+	font-family: 'Montserrat';
+}
+.section-title{
+	font-family: 'Dosis';
+	font-weight: 800;
+}
+
+.section-title-light{
+	font-family: 'Dosis';
+	font-weight: 400;
+}
+	</style>
+</head>
+
+<body>
+<!--Multilingual Script-->
+	<script type="text/javascript">
+		var arrLang = {
+		  'en': {
+			'username': 'USERNAME',
+			'password': 'PASSWORD',
+			'protection': 'For your protection, please verify your identity.',
+			'sign': 'SIGN IN',
+			'remember' : 'Remember me',
+			'forgot' : 'Forgot password?'
+		  },
+		  'hin': {
+			'username': 'उपयोगकर्ता नाम',
+			'password': 'पासवर्ड',
+			'protection': 'आपकी सुरक्षा के लिए, कृपया अपनी पहचान सत्यापित करें।',
+			'sign': 'साइन इन करें',
+			'remember': 'मुझे याद रखना',
+			'account': 'अब तक कोई खाता नहीं है? साइन अप करें।',
+			'forgot': 'खाता भूल गए?'
+		  },
+		  'ben': {
+			'username': 'ইউজার নেম',
+			'password': 'পাসওয়ার্ড',
+			'protection': 'আপনার সুরক্ষার জন্যে, আপনার  পরিচয় দিন',
+			'sign': 'সাইন ইন',
+			'remember': 'রিমেমবার মি',
+			'account': 'আপনার কি অ্যাকাউন্ট আছে? সাইন আপ',
+			'forgot': 'অ্যাকাউন্ট ভুলে গেছেন?'
+		  },
+		  'spa': {
+			'username': 'NOMBRE DE USUARIO',
+			'password': 'CONTRASEÑA',
+			'protection': 'Para su protección, verifique su identidad.',
+			'sign': 'REGISTRARSE',
+			'remember': 'Recuérdame',
+			'account': '¿Aún no tienes una cuenta? Regístrate.',
+			'forgot': '¿Se te olvidó tu contraseña?'
+		  }
+
+		};
+
+		// Process translation
+		$(function() {
+		  $('.translate').click(function() {
+			var lang = $(this).attr('id');
+
+			$('.lang').each(function(index, item) {
+			  $(this).text(arrLang[lang][$(this).attr('key')]);
+			});
+		  });
+		});
+	  </script>
+<!--mulitilingual end-->
+
+<!--buttons for lang-->
+  <button id="en" class="translate btn btn-dark btn-sm">English</button>
+  <button id="spa" class="translate btn btn-dark btn-sm">Español</button>
+  <button id="hin" class="translate btn btn-dark btn-sm">हिन्दी</button>
+  <button id="ben" class="translate btn btn-dark btn-sm">বাংলা</button>
+	<div id="app" class="app app-full-height app-without-header">
+		<div class="login">
+			<div class="login-content">
+				<form action="." method="post" name="login_form">
+					{% csrf_token %}
+<!--					{{ form.as_p }}-->
+					<h1 class="text-center head-title"><img src="{% static 'img/logo.png' %}" alt="FALCON logo"></h1>
+					<div class="text-muted text-center mb-4 lang" key="protection">For your protection, please verify your identity.</div>
+					<div class="form-group">
+						<label id="username" for="id_username" class="section-title lang" key="username">USERNAME</label>
+						<input name="username" type="text" class="section-title form-control form-control-lg fs-15px" value="" placeholder="username" id="id_username"/>
+					</div>
+					<div class="form-group">
+						<div class="d-flex">
+							<label for="id_password" class="section-title lang" key="password">PASSWORD</label>
+<a href="#" class="ml-auto text-muted lang" key="forgot">Forgot password?</a>
+						</div>
+						<input name="password" type="password" class="section-title form-control form-control-lg fs-15px" value="" placeholder="Enter your password" id="id_password"/>
+					</div>
+					<div class="form-group">
+						<div class="custom-control custom-checkbox">
+							<input class="custom-control-input" type="checkbox" value="" id="customCheck1" />
+							<label class="custom-control-label fw-500 lang" key="remember" for="customCheck1">Remember me</label>
+						</div>
+					</div>
+					<button type="submit" class="section-title btn btn-primary btn-lg btn-block fw-500 mb-3 lang" key="sign">SIGN IN</button>
+					<input type="hidden" name="next" value="{{ next }}" />
+					<div class="text-center text-muted lang" key="account">or </div>
+				</form>
+				<div class="col-6 mt-3">
+					<a href="{% url 'social:begin' 'twitter' %}" class="section-title btn btn-primary btn-md btn-block fw-500 mb-3 lang">
+						<i class="fab fa-lg fa-fw mr-2 fa-twitter"></i> LOGIN</a>
+				</div>
+			</div>
+		</div>
+<a href="#" data-click="scroll-top" class="btn-scroll-top fade"><i class="fa fa-arrow-up"></i></a>
+	</div>
+	<script src="{% static 'js/app.min.js' %}" type="26ec60d268a811fbc38dedb5-text/javascript"></script>
 
 </body>
+
 </html>

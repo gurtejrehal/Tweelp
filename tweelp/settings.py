@@ -119,6 +119,19 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+SOCIAL_AUTH_PIPELINE = (
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.auth_allowed',
+    'social_core.pipeline.social_auth.social_user',
+    'social_core.pipeline.user.get_username',
+    'social_core.pipeline.user.create_user',
+    'social_core.pipeline.social_auth.associate_user',
+    'social_core.pipeline.social_auth.load_extra_data',
+    'social_core.pipeline.user.user_details',
+    'alert.pipeline.get_avatar',
+)
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
@@ -144,5 +157,8 @@ SOCIAL_AUTH_TWITTER_KEY = os.environ.get("SOCIAL_AUTH_TWITTER_KEY", None)
 SOCIAL_AUTH_TWITTER_SECRET = os.environ.get("SOCIAL_AUTH_TWITTER_SECRET", None)
 
 LOGIN_URL = 'auth_login'
-LOGOUT_URL = 'auth_logout'
+LOGOUT_REDIRECT_URL = '/'
 LOGIN_REDIRECT_URL = 'alert:index'
+
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = 'alert:index'
+# SOCIAL_AUTH_LOGOUT_REDIRECT_URL = '/'

@@ -1,3 +1,4 @@
 from django.contrib import admin
+from alert.models import UserProfile
 
-# Register your models here.
+admin.site.register(UserProfile)

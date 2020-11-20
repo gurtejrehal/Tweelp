@@ -17,10 +17,20 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.shortcuts import redirect
+
+
+def redirect_login(request):
+    if not request.user.is_authenticated:
+        return redirect('auth_login')
+    else:
+        return redirect('alert:index')
+
 
 urlpatterns = [
-    path('oauth/', include('social_django.urls', namespace='social')),
-    path('accounts/', include('registration.backends.simple.urls')),
-    path('admin/', admin.site.urls),
-    path('', include('alert.urls')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+                  path('', redirect_login),
+                  path('oauth/', include('social_django.urls', namespace='social')),
+                  path('accounts/', include('registration.backends.simple.urls')),
+                  path('admin/', admin.site.urls),
+                  path('', include('alert.urls')),
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
