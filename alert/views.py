@@ -7,8 +7,10 @@ from django.contrib import messages
 def index(request):
     context_dict = dict()
 
-    userprofile = UserProfile.objects.get(user=request.user)
+    userprofile = UserProfile.objects.get_or_create(user=request.user)[0]
     category = Category.objects.all()
+
+    context_dict['home'] = True
     context_dict['userprofile'] = userprofile
     context_dict['category'] = category
     return render(request, 'alert/index.html', context=context_dict)

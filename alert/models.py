@@ -1,12 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
-import math
+import math, random
 
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    picture_url = models.URLField(null=True, blank=True)
+    picture_url = models.URLField(null=True, blank=True,
+                                  default='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRThY_01nTnP3fP1WlRQrF45q43HGU5O2PwjA&usqp=CAU')
     concurrency = models.IntegerField(default=3)
     is_previously_logged = models.BooleanField(default=False)
 
@@ -17,6 +18,19 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+    def time_spent_working(self):
+        now = timezone.now()
+        diff = now - self.user.date_joined
+        minutes = diff.total_seconds() / 3600
+        return round(minutes, 1)
+
+    def percent(self):
+        result = random.randint(-3, 10)
+        return (True, result) if result >= 0 else (False, -1 * result)
+
+    def concurrency_percent(self):
+        return (self.concurrency / 10) * 100
 
 
 class Category(models.Model):

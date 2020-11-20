@@ -60,7 +60,7 @@
 	<script type="text/javascript">
 		var arrLang = {
 		  'en': {
-			'title': 'FALCON',
+			'title': 'TWEELP',
 			'profile': 'Edit Profile',
 			'inbox': 'Inbox',
 			'calendar': 'Calendar',
@@ -84,7 +84,7 @@
 			"all" : 'See all'
 		  },
 		  'hin': {
-			'title': 'फ़ॉल्कन',
+			'title': 'ट्वीलप',
 			'profile': 'प्रोफ़ाइल संपादित करें',
 			'inbox': 'इनबॉक्स',
 			'calendar': 'पंचांग',
@@ -108,7 +108,7 @@
 			'all' : 'सभी देखें'
 		  },
 		  'ben': {
-			'title': 'ফ্যালকন',
+			'title': 'টুযেলপ',
 			'profile': 'প্রোফাইল',
 			'inbox': 'ইনবক্স',
 			'calendar': 'ক্যালেন্ডার',
@@ -132,28 +132,28 @@
 			'all' : 'সব দেখুন'
 		  },
 		  'spa': {
-			'title': 'ফ্যালকন',
-			'profile': 'প্রোফাইল',
-			'inbox': 'ইনবক্স',
-			'calendar': 'ক্যালেন্ডার',
-			'setting': 'সেটিং',
-			'logout': 'Cerrar sesión',
-			'nav': 'নেভিগেশন',
-			'crawler' : 'ক্রলার',
-			'report' : 'রিপোর্ট',
-			'schedule' : 'সিডিউলার',
-			'admin' : 'অ্যাডমিন',
-			'map' : 'ম্যাপ',
-			'helper' : 'হেল্পার',
+			'title': 'TWEELP',
+			'profile': 'Editar perfil',
+			'inbox': 'bandeja de entrada',
+			'calendar': 'Calendario',
+			'setting' : 'Ajuste',
+			'logout' : 'Cerrar sesión',
+			'nav' : 'Navegación',
+			'crawler' : 'Búsquedas recientes',
+			'report' : 'Reporte',
+			'schedule': 'Programadora',
+			'admin' : 'Administradora',
+			'map' : 'Mapa',
+			'helper' : 'Ayudante',
 			'search' : 'HAZ TU BÚSQUEDA',
 			'tell' : 'cuéntenos qué está rastreando hoy.',
-			'increase' : 'আগের সপ্তাহের তুলনায় বৃদ্ধি',
-			'welcome' : 'নমষ্কার',
-			'scraper' : 'স্ক্র্যাপার',
-			'filter' : 'ফিল্টার যোগ করুন',
-			'traffic' : 'ট্রাফিক',
-			'chart' : ' রিস্ক্রাপড ডাটা পারফরমেন্স চার্ট',
-			'all' : 'সব দেখুন'
+			'increase' : 'aumento en comparación con la semana pasada',
+			'welcome' : 'Hola',
+			'scraper' : 'Scraper',
+			'filter' : 'Añadir filtro',
+			'traffic' : 'Tráfico',
+			"chart" : 'Gráfico de rendimiento de datos reestructurados',
+			"all" : 'Ver todo'
 		  }
 		};
 
@@ -244,13 +244,13 @@
 					<div class="menu-item {% if home %}active{% endif %}">
 						<a href="{% url 'alert:index' %}" class="menu-link">
 <span class="menu-icon"><i class="fa fa-laptop"></i></span>
-							<span class="menu-text">{% if request.path == '/result/' %}Result{% else %}Dashboard{% endif %}</span>
+							<span class="menu-text">{% if request.path == '/result/' %}Result{% else %}Disaster Management{% endif %}</span>
 						</a>
 					</div>
 					<div class="menu-item {% if report %}active{% endif %}">
 						<a href="#" class="menu-link">
 <span class="menu-icon"><i class="fa fa-chart-pie"></i></span>
-							<span class="menu-text lang" key="report">Report</span>
+							<span class="menu-text lang" key="report">News Authenticity</span>
 						</a>
 					</div>
 					<div class="menu-divider"></div>
