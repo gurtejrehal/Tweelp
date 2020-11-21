@@ -418,7 +418,7 @@
 					<pre id="json-renderer_{{ forloop.counter }}"></pre>
 				  </div>
 				  <div class="modal-footer">
-					<button type="button" class="btn btn-{% if report.report.category.name|stringformat:'s' == 'crime' %}primary{% elif report.report.category.name|stringformat:'s' == 'child_abuse' %}danger{% elif report.report.category.name|stringformat:'s' == 'woman_abuse' %}warning{% else %}teal{% endif %}" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-{% if report.report.category.name|stringformat:'s' == 'crimes' %}primary{% elif report.report.category.name|stringformat:'s' == 'child_abuse' %}danger{% elif report.report.category.name|stringformat:'s' == 'woman_abuse' %}warning{% elif report.report.category.name|stringformat:'s' == 'natural_disasters' %}secondary{% else %}teal{% endif %} mr-2" data-toggle="popover" data-content="{{ report.report.category.name }}" data-dismiss="modal">Close</button>
 				  </div>
 				</div>
 			  </div>

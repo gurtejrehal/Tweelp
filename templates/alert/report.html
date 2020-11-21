@@ -2,7 +2,7 @@
 {% load static %}
 {% load tweelp_filter %}
 
-{% block title %} Crawler {% endblock %}
+{% block title %} Report {% endblock %}
 
 
 {% block custom_style %}
@@ -69,7 +69,7 @@
 						{% else %}
 						<p class="card-text">you haven't <span class="text-primary" style="font-family:'Montserrat'">crawled </span> any links yet.</p>
 						{% endif %}
-						<p class="card-text"><small class="text-muted">with <span class="text-primary" style="font-family:'Montserrat'">{{ userprofile.time_spent_scraping }}</span> hours spent scraping.</small></p>
+						<p class="card-text"><small class="text-muted">with <span class="text-primary" style="font-family:'Montserrat'">{{ userprofile.time_spent_working }}</span> hours spent scraping.</small></p>
 					  </div>
 				  </div>
 			</div>
@@ -125,7 +125,7 @@
 							</a>
 						</td>
 						<td>
-							<i class="fa fa-circle fs-9px fa-fw text-{% if report.report.category.name|stringformat:'s' == 'crime' %}primary{% elif report.report.category.name|stringformat:'s' == 'child_abuse' %}danger{% elif report.report.category.name|stringformat:'s' == 'woman_abuse' %}warning{% else %}teal{% endif %} mr-2" data-toggle="popover" data-content="{{ report.report.category.name }}" data-trigger="hover" data-placement="left"></i>
+							<i class="fa fa-circle fs-9px fa-fw text-{% if report.report.category.name|stringformat:'s' == 'crimes' %}primary{% elif report.report.category.name|stringformat:'s' == 'child_abuse' %}danger{% elif report.report.category.name|stringformat:'s' == 'woman_abuse' %}warning{% elif report.report.category.name|stringformat:'s' == 'natural_disasters' %}secondary{% else %}teal{% endif %} mr-2" data-toggle="popover" data-content="{{ report.report.category.name }}" data-trigger="hover" data-placement="left"></i>
 							{{ report.report.category.name }}
 						</td>
 						<td data-toggle="popover" data-content="{{ report.pub_date }}" data-trigger="hover" data-placement="left"> {{ report.whenpublished }}</td>
@@ -160,7 +160,9 @@
 <script src="{% static 'plugins/chart.js/dist/Chart.min.js' %}" ></script>
 
 <script>
-
+{% for report in user_reports %}
+	$('#json-renderer_{{ forloop.counter }}').jsonViewer({{ report.report.predicted_data|safe }});
+{% endfor %}
 
   $(function() {
 
@@ -177,9 +179,6 @@
 
 $('[data-toggle="popover"]').popover();
 
-{% for report in user_reports %}
-	$('#json-renderer_{{ forloop.counter }}').jsonViewer({{ report.report.predicted_data|safe }});
-{% endfor %}
 
 });
 
