@@ -20,7 +20,7 @@ def index(request):
     context_dict['unread_count'] = len(unread)
     context_dict['notifications'] = notifications[:5]
     context_dict['category'] = category
-    context_dict['user_crawler'] = user_crawled_links[:5]
+    context_dict['user_crawler'] = user_crawled_links[:userprofile.recent_link]
     context_dict['cat_percent'] = category_percent(request.user)
     return render(request, 'alert/index.html', context=context_dict)
 
@@ -158,6 +158,7 @@ def process(request):
         filters_list = [x.strip(' ') for x in filters.split(',')]
 
         labels = ["earthquake", "tsunami", "storm", "floods"]
+        no_of_links = 0
 
         keyword = Keyword.objects.get_or_create(name=main_search)[0]
         keyword.save()
@@ -169,9 +170,15 @@ def process(request):
             report = Report.objects.get_or_create(keyword=keyword, category=category, predicted="le")[0]
             report.save()
 
-            user_report = UserReport.objects.get_or_create(userprofile=userprofile, report=report,
-                                                           reschedule=reschedule)[0]
+            user_report, created = UserReport.objects.get_or_create(userprofile=userprofile, report=report,
+                                                                    reschedule=reschedule)
             user_report.save()
+
+            if created:
+                no_of_links += 1
+
+            userprofile.crawled_links += no_of_links
+            userprofile.save()
 
         context = dict()
 

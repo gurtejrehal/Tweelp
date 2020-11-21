@@ -11,6 +11,8 @@ class UserProfile(models.Model):
     picture_url = models.URLField(null=True, blank=True,
                                   default='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRThY_01nTnP3fP1WlRQrF45q43HGU5O2PwjA&usqp=CAU')
     concurrency = models.IntegerField(default=3)
+    crawled_links = models.IntegerField(default=0)
+    recent_link = models.IntegerField(default=5)
     is_previously_logged = models.BooleanField(default=False)
 
     # def save(self, *args, **kwargs):

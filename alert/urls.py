@@ -1,5 +1,5 @@
 from alert import views
-from django.urls import path
+from django.urls import path, include
 
 app_name = 'alert'
 
@@ -13,4 +13,5 @@ urlpatterns = [
     path('update-notifications-base/', views.update_notifications_base, name='update_notifications_base'),
     path('update/', views.update, name='update'),
     path('read/', views.read, name='read'),
+    path('scheduler/', include('scheduler.urls'), name='scheduler'),
 ]
