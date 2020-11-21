@@ -1,0 +1,310 @@
+{% extends 'alert/base.html' %}
+{% load static %}
+{% load tweelp_filter %}
+
+{% block title %} Showing results {% endblock %}
+
+{% block custom_style %}
+<style>
+.blur {
+    filter: blur(5px);
+    transition: 1s;
+}
+.blur:hover {
+filter: blur(0px);
+}
+ </style>
+
+  {% endblock %}
+
+{% block body %}
+
+<ul class="breadcrumb">
+<li class="breadcrumb-item section-title"><a href="{% url 'alert:index' %}">TWEELP</a></li>
+<li class="breadcrumb-item section-title active">RESULT</li>
+</ul>
+
+
+<div class="container">
+
+  <ul class="nav nav-tabs">
+
+
+  <li class="nav-item mr-1"><a href="#tab" class="nav-link section-title font-weight-bold active" data-toggle="tab" data-keyword="{{ query }}">{{ query|upper }}</a></li>
+
+
+
+</ul>
+
+<div class="tab-content pt-3">
+
+    <div class="tab-pane fade show active" id="tab">
+    <div class="row">
+        <div class="row md-4">
+          <button class="btn btn-dark btn-sm mr-4" id="generate_report">Generate Report</button>
+          <button class="btn btn-dark btn-sm mr-4" id="send_alert" >Alert</button>
+          <button class="btn btn-dark btn-sm mr-4 "  data-toggle="modal" data-target="#modal_keyword">{{ query }}'s Trends</button>
+          <input type="hidden" value="{{ query }}" id="hidden-social">
+          <button class="btn btn-warning btn-sm mr-4 " id="social_media_btn" data-toggle="modal" data-target="#social_media">Social Media Data</button>
+          <a href="{% url 'alert:api'  query  %}"  target="_blank" class="btn btn-info btn-sm font-weight-bold">Generate API for the Report {{ query|upper }}</a>
+        </div>
+        <canvas class="mt-4" id="chart-area"></canvas>
+    </div>
+
+
+
+
+
+    <div class="row mt-4 mb-4 justify-content-md-center"><div class="col"><h2 class="text-center" style="font-family:'Montserrat'">ANALYTICA</h2></div></div>
+
+    <div class="row">
+
+      <div class="card-columns">
+
+        <div class="card bg-dark text-white text-center p-3">
+          <blockquote class="blockquote mb-0">
+            <a href="{% url 'alert:api'  query  %}"  target="_blank" class="btn btn-info btn-sm font-weight-bold">API for this result.</a>
+            <footer class="blockquote-footer">
+              <small>
+                Results compiled for keyword: <cite title="Source Title"> {{ query }}</cite>
+              </small>
+            </footer>
+          </blockquote>
+        </div>
+
+
+
+<!--        {% for keyword, values in news_data1.items %}-->
+
+<!--        {% if query|stringformat:"s" == keyword|stringformat:"s" %}-->
+<!--        {% for value in values %}-->
+<!--        <div class="card p-3">-->
+<!--          <div class="card-body">-->
+<!--            <h5 class="card-title"><a href="{{ value.link }}">{{ value.title }}</a> </h5>-->
+<!--            <h6 class="card-subtitle mb-2 text-muted">for keyword {{ keyword }}</h6>-->
+<!--            <p class="card-text">{{ value.desc }}</p>-->
+<!--            <a href="{{ value.link }}" class="card-link">Link</a>-->
+<!--            <p class="card-text">by {{ value.media }}</p>-->
+
+<!--            <p class="card-text"><small class="text-muted">Last updated {{ value.date }}</small></p>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        {% endfor %}-->
+<!--        {% endif %}-->
+
+<!--        {% endfor %}-->
+
+
+      </div>
+
+    </div>
+
+
+  </div>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+{% endblock %}
+
+{% block script %}
+
+<script
+	  src="https://code.jquery.com/jquery-3.3.1.min.js"
+	  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+	  crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+<script data-cfasync="false" src="../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="{% static 'js/app.min.js' %}" type="59f984106ec2e39727363fa8-text/javascript"></script>
+<script src="{% static 'plugins/chart.js/dist/Chart.min.js' %}" ></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/emn178/chartjs-plugin-labels/src/chartjs-plugin-labels.js"></script>
+
+	
+<script>
+
+		var config = {
+			type: 'doughnut',
+			data: {
+				datasets: [{
+					data: [20, 30, 40, 10],
+					backgroundColor: ['#111', '#f59042', '#555644', '#444'],
+				}],
+				labels: {{ labels|safe }}
+			},
+			options: {
+				events: ['mousemove', 'mouseout'],
+				responsive: true,
+				plugins: {
+		          labels: [
+					    {
+					      render: 'label',
+					      position: 'outside',
+					      fontFamily: '"Montserrat"'
+					    },
+					    {
+					      render: 'percentage',
+					      fontFamily: '"Montserrat"',
+					      fontColor: "#ffffff"
+					    }
+					  ]
+		        },
+				legend: {
+					display: true,
+					position: 'right'
+				},
+				onHover: function (event, chartElement) {
+			      event.target.style.cursor = chartElement[0] ? 'pointer' : 'default';
+			      myPie.update()
+    				chartElement[0]._model.outerRadius += 20
+
+			    },
+				tooltips: {
+					enabled: true,
+				}
+			}
+		};
+
+
+        var ctx = document.getElementById('chart-area').getContext('2d');
+        window.myPie = new Chart(ctx, config);
+
+
+
+
+
+  
+  Chart.pluginService.register({
+  beforeDraw: function(chart) {
+    var width = chart.chart.width,
+        height = chart.chart.height,
+        ctx = chart.chart.ctx;
+
+    ctx.restore();
+    var fontSize = ((height / 200 )+0.5).toFixed(2);
+    ctx.font = fontSize  + "em Montserrat";
+    ctx.textBaseline = "middle";
+
+    var text = "TWEELP",
+        textX = Math.round((width - ctx.measureText(text).width) / 2 - 60),
+        textY = height / 2;
+
+    ctx.fillText(text, textX, textY);
+    ctx.save();
+  }
+});
+
+
+
+  
+</script>
+
+
+<script>
+  $('#generate_report').click(function(){
+			 $('#report_toast').toast('show');
+
+			 var keyword = $('.nav-tabs .active').attr('data-keyword');
+			 console.log(keyword);
+
+			 $.ajax({
+            url: "/update-notifications/",
+            type: "POST",
+            data: { 'status' : true, "csrfmiddlewaretoken" : $("input[name=csrfmiddlewaretoken]").val(), 'keyword' : keyword },
+            success: function(response){
+					$('#unread-update').html(response);
+            }
+
+        });
+
+});
+
+  $('#send_alert').click(function(){
+			 $('#alert_toast').toast('show');
+
+			 var keyword = $('.nav-tabs .active').attr('data-keyword');
+			 console.log(keyword);
+
+			 var alert = "true"
+
+			 $.ajax({
+            url: "/update-notifications/",
+            type: "POST",
+            data: { 'status' : true, "csrfmiddlewaretoken" : $("input[name=csrfmiddlewaretoken]").val(), 'keyword' : keyword, 'alert': alert },
+            success: function(response){
+					$('#unread-update').html(response);
+            }
+
+        });
+
+
+         $.ajax({
+            url: "/send-alert/",
+            type: "POST",
+            data: { 'status' : 1, "csrfmiddlewaretoken" : $("input[name=csrfmiddlewaretoken]").val()},
+            success: function(response){
+					console.log("message sent")
+            }
+
+        });
+
+});
+
+
+$('#notification-read').click(function(){
+	$.ajax({
+            url: "/read/",
+            type: "POST",
+            data: { 'status' : true, "csrfmiddlewaretoken" : $("input[name=csrfmiddlewaretoken]").val()},
+            success: function(response){
+					$('#unread-update').html(response);
+            }
+
+        });
+
+        $.ajax({
+            url: "/update-notifications-base/",
+            type: "POST",
+            data: { 'status' : true, "csrfmiddlewaretoken" : $("input[name=csrfmiddlewaretoken]").val()},
+            success: function(response){
+					$('#notification_area').html(response);
+            }
+
+        });
+
+});
+
+$('#social_media_btn').click(function(){
+
+
+	$.ajax({
+            url: "/social-scrape-data/",
+            type: "POST",
+            data: { 'keyword' : $('#hidden-social').val(), "csrfmiddlewaretoken" : $("input[name=csrfmiddlewaretoken]").val()},
+            success: function(response){
+              $('#social_media_body').html(response);
+            }
+
+        });
+
+
+});
+
+$('[data-toggle="popover"]').popover();
+
+</script>
+
+
+{% endblock %}

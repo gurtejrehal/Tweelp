@@ -22,7 +22,7 @@
 							</div>
 						</div>
 
-					<form action="#" method="post" id="main_search">
+					<form action="{% url 'alert:process' %}" method="post" id="main_search">
 						{% csrf_token %}
 						<div class="card-body position-relative">
 							<div class="row">
