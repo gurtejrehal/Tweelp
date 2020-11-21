@@ -13,7 +13,7 @@ class NotificationsAdmin(admin.ModelAdmin):
 
 
 class ReportAdmin(admin.ModelAdmin):
-    list_display = ('keyword', 'category', 'predicted',)
+    list_display = ('keyword', 'category',)
     search_fields = ['keyword', 'category']
     list_filter = ['keyword', 'category']
 

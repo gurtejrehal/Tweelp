@@ -3,9 +3,10 @@ from django.contrib.auth.decorators import login_required
 from alert.models import UserProfile, Notifications, Category, Report, UserReport, Keyword
 from scheduler.models import ScrapedLink
 from django.contrib import messages
+from django.http import JsonResponse
 from utils.social import social_media_scrape, send_alerts
-from utils.analytics import category_percent
-import json
+from utils.analytics import category_percent, get_location, category_count
+import json, copy, random
 
 
 def index(request):
@@ -25,6 +26,39 @@ def index(request):
     context_dict['user_crawler'] = user_crawled_links[:userprofile.recent_link]
     context_dict['cat_percent'] = category_percent(request.user)
     return render(request, 'alert/index.html', context=context_dict)
+
+
+@login_required
+def reports(request):
+    """
+
+    :param request:
+    :return: Crawler Page
+    """
+    context = dict()
+    userprofile = UserProfile.objects.get(user=request.user)
+    notifications = Notifications.objects.filter(user=userprofile).order_by('-pub_date')
+    unread = notifications.filter(read=False)
+    categories = [i.name for i in Category.objects.all()]
+    user_reports = UserReport.objects.order_by('-pub_date')
+
+    unique_keyword = list(user_reports.filter(userprofile=userprofile).order_by().values_list('report__keyword__name',
+                                                                                              flat=True).distinct())
+
+    copy_keyword = copy.copy(unique_keyword)
+    random.shuffle(copy_keyword)
+
+    print(category_count(request.user))
+    context['report'] = True
+    context['userprofile'] = userprofile
+    context['notifications'] = notifications[:5]
+    context['unread_count'] = len(unread)
+    context['user_reports'] = user_reports
+    context['categories'] = categories
+    context['category_data'] = category_count(request.user)
+    context['unique_keyword'] = unique_keyword
+
+    return render(request, "alert/report.html", context=context)
 
 
 @login_required
@@ -114,8 +148,49 @@ def read(request):
         return HttpResponse("0")
 
 
-def api(request):
-    return HttpResponse("hey")
+def api(request, keyword):
+    userprofile = UserProfile.objects.get(user=request.user)
+    userreports = UserReport.objects.filter(userprofile=userprofile)
+    coordinates = get_location(keyword)
+    predicted_data = {
+        'keyword': keyword,
+        'coordinates': {
+            'latitude': coordinates[0],
+            'longitude': coordinates[1]
+        },
+        'Natural_Disaster': {
+            'earthquake': '78%',
+            'floods': '10%',
+            'tsunami': '0%',
+            'storms': '20%',
+            'Accuracy score': '92 %',
+            'News Authenticity': '95%',
+        },
+        'Crimes': {
+            'murder': '21%',
+            'kidnapping': '12%',
+            'traffiking': '3%',
+            'Accuracy score': '94%',
+            'News Authenticity': '97%',
+        },
+        'Woman_Abuse': {
+            'murder': '18%',
+            'rape': '5%',
+            'traffiking': '3%',
+            'Accuracy score': '91%',
+            'News Authenticity': '89%',
+        },
+        'Child_Abuse': {
+            'murder': '21%',
+            'kidnapping': '12%',
+            'traffiking': '3%',
+            'Accuracy score': '91%',
+            'News Authenticity': '89%',
+        }
+
+    }
+
+    return JsonResponse(predicted_data)
 
 
 @login_required
@@ -169,20 +244,54 @@ def process(request):
             category = Category.objects.get_or_create(name=cat)[0]
             category.save()
 
-            report = Report.objects.get_or_create(keyword=keyword, category=category, predicted="le")[0]
+            coordinates = get_location(keyword.name)
+            predicted_data = {
+                'keyword': keyword.name,
+                'coordinates': {
+                    'latitude': coordinates[0],
+                    'longitude': coordinates[1]
+                },
+                'Natural_Disaster': {
+                    'earthquake': '78%',
+                    'floods': '10%',
+                    'tsunami': '0%',
+                    'storms': '20%',
+                    'Accuracy score': '92 %',
+                    'News Authenticity': '95%',
+                },
+                'Crimes': {
+                    'murder': '21%',
+                    'kidnapping': '12%',
+                    'traffiking': '3%',
+                    'Accuracy score': '94%',
+                    'News Authenticity': '97%',
+                },
+                'Woman_Abuse': {
+                    'murder': '18%',
+                    'rape': '5%',
+                    'traffiking': '3%',
+                    'Accuracy score': '91%',
+                    'News Authenticity': '89%',
+                },
+                'Child_Abuse': {
+                    'murder': '21%',
+                    'kidnapping': '12%',
+                    'traffiking': '3%',
+                    'Accuracy score': '91%',
+                    'News Authenticity': '89%',
+                }
+
+            }
+            old_data = json.dumps(predicted_data)
+
+            report = Report.objects.get_or_create(keyword=keyword, category=category, predicted_data=old_data)[0]
             report.save()
 
             user_report, created = UserReport.objects.get_or_create(userprofile=userprofile, report=report,
                                                                     reschedule=reschedule)
             user_report.save()
 
-            predicted_data = {
-                'News Authenticity': '95%',
-                'Accuracy score': '92 %'
-            }
-            old_data = json.dumps(predicted_data)
-
-            scraped_link = ScrapedLink.objects.get_or_create(keyword=keyword, scrape_data=old_data,
+            scraped_link = ScrapedLink.objects.get_or_create(keyword=keyword.name, scrape_data=old_data,
                                                              schedule_day=reschedule)[0]
             scraped_link.save()
 

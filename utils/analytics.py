@@ -1,5 +1,5 @@
 from alert.models import Category, UserProfile, Report, UserReport
-import random
+from geopy.geocoders import Nominatim
 
 
 def category_count(user):
@@ -43,3 +43,9 @@ def category_percent(user):
         context[category.name] = round(p, 2)
 
     return context
+
+
+def get_location(place):
+    geolocator = Nominatim(user_agent="my_user_agent")
+    loc = geolocator.geocode(place)
+    return loc.latitude, loc.longitude

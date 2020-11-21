@@ -247,7 +247,7 @@
 							<span class="menu-text">{% if request.path == '/results/' %}Result{% else %}Disaster Management{% endif %}</span>
 						</a>
 					</div>
-					<div class="menu-item {% if report %}active{% endif %}">
+					<div class="menu-item">
 						<a href="#" class="menu-link">
 <span class="menu-icon"><i class="fa fa-chart-pie"></i></span>
 							<span class="menu-text lang" key="report">News Authenticity</span>
@@ -255,8 +255,8 @@
 					</div>
 					<div class="menu-divider"></div>
 					<div class="menu-header">Components</div>
-					<div class="menu-item {% if crawler_home %}active{% endif %}">
-						<a href="#" class="menu-link">
+					<div class="menu-item {% if report %}active{% endif %}">
+						<a href="{% url 'alert:reports' %}" class="menu-link">
 <span class="menu-icon"><i class="fa fa-snowflake"></i></span>
 							<span class="menu-text lang" key="crawler">Reports</span>
 						</a>
@@ -402,6 +402,29 @@
     </div>
   </div>
 </div>
+
+
+		{% for report in user_reports %}
+		<div class="modal fade" id="modal_link_{{ forloop.counter }}" tabindex="-1" role="dialog" aria-hidden="true">
+			  <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+				<div class="modal-content">
+				  <div class="modal-header">
+					<h5 class="modal-title">Keyword - {{ report.report.keyword.name }}</h5>
+					<button type="button" class="close" data-dismiss="modal">
+					  <span>×</span>
+					</button>
+				  </div>
+				  <div class="modal-body">
+					<pre id="json-renderer_{{ forloop.counter }}"></pre>
+				  </div>
+				  <div class="modal-footer">
+					<button type="button" class="btn btn-{% if report.report.category.name|stringformat:'s' == 'crime' %}primary{% elif report.report.category.name|stringformat:'s' == 'child_abuse' %}danger{% elif report.report.category.name|stringformat:'s' == 'woman_abuse' %}warning{% else %}teal{% endif %}" data-dismiss="modal">Close</button>
+				  </div>
+				</div>
+			  </div>
+			</div>
+
+	{% endfor %}
 
 
 

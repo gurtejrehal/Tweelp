@@ -1,9 +1,16 @@
 import math
 import random
+import json
 
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
+
+predicted_data = {
+    'News_Authenticity': '92%',
+    'Accuracy Score': '95%'
+}
+old_data = json.dumps(predicted_data)
 
 
 class UserProfile(models.Model):
@@ -70,11 +77,11 @@ class Category(models.Model):
 class Report(models.Model):
     keyword = models.ForeignKey(Keyword, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    predicted = models.CharField(max_length=100, blank=False, null=False)
+    predicted_data = models.TextField(max_length=3000, blank=True, default=old_data)
     pub_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return str(self.predicted) + "for keyword " + str(self.keyword) + " in category " + str(self.category)
+        return "for keyword " + str(self.keyword) + " in category " + str(self.category)
 
 
 class UserReport(models.Model):
