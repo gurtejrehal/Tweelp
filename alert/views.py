@@ -1,9 +1,11 @@
 from django.shortcuts import render, HttpResponse
 from django.contrib.auth.decorators import login_required
 from alert.models import UserProfile, Notifications, Category, Report, UserReport, Keyword
+from scheduler.models import ScrapedLink
 from django.contrib import messages
 from utils.social import social_media_scrape, send_alerts
 from utils.analytics import category_percent
+import json
 
 
 def index(request):
@@ -173,6 +175,16 @@ def process(request):
             user_report, created = UserReport.objects.get_or_create(userprofile=userprofile, report=report,
                                                                     reschedule=reschedule)
             user_report.save()
+
+            predicted_data = {
+                'News Authenticity': '95%',
+                'Accuracy score': '92 %'
+            }
+            old_data = json.dumps(predicted_data)
+
+            scraped_link = ScrapedLink.objects.get_or_create(keyword=keyword, scrape_data=old_data,
+                                                             schedule_day=reschedule)[0]
+            scraped_link.save()
 
             if created:
                 no_of_links += 1
