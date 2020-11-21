@@ -27,6 +27,22 @@ def index(request):
     context_dict['cat_percent'] = category_percent(request.user)
     return render(request, 'alert/index.html', context=context_dict)
 
+@login_required
+def map(request):
+    context_dict = dict()
+
+    userprofile = UserProfile.objects.get_or_create(user=request.user)[0]
+    category = Category.objects.all()
+    notifications = Notifications.objects.filter(user=userprofile).order_by('-pub_date')
+    unread = notifications.filter(read=False)
+
+    context_dict['map'] = True
+    context_dict['userprofile'] = userprofile
+    context_dict['unread_count'] = len(unread)
+    context_dict['notifications'] = notifications[:5]
+    context_dict['category'] = category
+    return render(request, 'alert/map.html', context=context_dict)
+
 
 @login_required
 def reports(request):

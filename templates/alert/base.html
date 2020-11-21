@@ -171,7 +171,7 @@
 <!--mulitilingual end-->
 <!--Multilingual buttons-->
 
-<body id="style-4">
+<body id="style-4" onload="initialize()">
 	<div id="app" class="app">
 		<header id="header" class="app-header">
 			<div class="mobile-toggler">
@@ -261,7 +261,7 @@
 							<span class="menu-text lang" key="crawler">Reports</span>
 						</a>
 					</div>
-					<div class="menu-item">
+					<div class="menu-item {% if scheduler %}active{% endif %}">
 						<a href="{% url 'alert:scheduler:index' %}" class="menu-link">
 <span class="menu-icon"><i class="fa fa-star"></i></span>
 							<span class="menu-text lang" key="schedule">Scheduler</span>
@@ -274,8 +274,8 @@
 						</a>
 					</div>
 
-					<div class="menu-item">
-						<a href="map.html" class="menu-link">
+					<div class="menu-item {% if map %}active{% endif %}">
+						<a href="{% url 'alert:map' %}" class="menu-link">
 <span class="menu-icon"><i class="fa fa-map-marker-alt"></i></span>
 							<span class="menu-text map lang" key="map">Map</span>
 						</a>

@@ -47,7 +47,8 @@ def search(request):
         context = {
             "scrape_link": scrape_link,
             "empty": empty,
-            "rescrape_link": rescrape_link
+            "rescrape_link": rescrape_link,
+            "scheduler": True
         }
 
         return render(None, "scheduler/search.html", context=context)

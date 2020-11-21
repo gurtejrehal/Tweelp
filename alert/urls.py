@@ -7,6 +7,7 @@ urlpatterns = [
     path('home/', views.index, name='index'),
     path('results/', views.process, name="process"),
     path('reports/', views.reports, name="reports"),
+    path('map/', views.map, name="map"),
     path('social-scrape-data/', views.social, name='social'),
     path('send-alert/', views.trigger_alert, name='alert_system'),
     path('tweelp-api/<str:keyword>/', views.api, name='api'),
