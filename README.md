@@ -1,4 +1,4 @@
-# Disaster-Response-ML-Pipeline
+# Disaster-Response
 
 # Table of Contents<a name="Table of Contents"></a>
 
@@ -19,6 +19,17 @@ The project contains the following parts:  
 4. ML Model: train_classifier.py: includes the code necessary to load data, transform it using natural language processing, run a machine learning model using GridSearchCV, RandomForest and train it. 
 5. Web App: run.py: Flask app and the user interface used to predict results and display them.
 
+# Run in Vs-Code<a name="How to run"></a>
+
+--> open folder in VS-Code
+
+--> cd app
+
+--> python run.py
+
+--> Go to http://0.0.0.0:3001/
+
+
 
 # Installation<a name="installation"></a>
 Dependencies
@@ -30,8 +41,7 @@ Dependencies
 
 Installing
 Clone this GIT repository:
-git clone https://github.com/isakkabir/Disaster-Response-ML-Pipeline.git
-
+git clone 
 
 Executing Program:
 1. Run the following commands in the project's root directory to set up your database and model.
