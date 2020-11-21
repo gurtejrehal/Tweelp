@@ -1,8 +1,9 @@
 from django.shortcuts import render, HttpResponse
 from django.contrib.auth.decorators import login_required
-from alert.models import UserProfile, Notifications, Category
+from alert.models import UserProfile, Notifications, Category, Report, UserReport, Keyword
 from django.contrib import messages
 from utils.social import social_media_scrape, send_alerts
+from utils.analytics import category_percent
 
 
 def index(request):
@@ -12,12 +13,15 @@ def index(request):
     category = Category.objects.all()
     notifications = Notifications.objects.filter(user=userprofile).order_by('-pub_date')
     unread = notifications.filter(read=False)
+    user_crawled_links = UserReport.objects.filter(userprofile=userprofile).order_by('-pub_date')
 
     context_dict['home'] = True
     context_dict['userprofile'] = userprofile
     context_dict['unread_count'] = len(unread)
     context_dict['notifications'] = notifications[:5]
     context_dict['category'] = category
+    context_dict['user_crawler'] = user_crawled_links[:5]
+    context_dict['cat_percent'] = category_percent(request.user)
     return render(request, 'alert/index.html', context=context_dict)
 
 
@@ -149,10 +153,26 @@ def process(request):
 
         main_search = request.POST.get('main_search')
         filters = request.POST['multiple_select']
-        reschedule_crawler = request.POST.get('reschedule_crawler')
-        print(main_search, filters, reschedule_crawler)
+        reschedule = request.POST.get('reschedule_crawler')
+        print(main_search, filters, reschedule)
+        filters_list = [x.strip(' ') for x in filters.split(',')]
 
         labels = ["earthquake", "tsunami", "storm", "floods"]
+
+        keyword = Keyword.objects.get_or_create(name=main_search)[0]
+        keyword.save()
+
+        for cat in filters_list:
+            category = Category.objects.get_or_create(name=cat)[0]
+            category.save()
+
+            report = Report.objects.get_or_create(keyword=keyword, category=category, predicted="le")[0]
+            report.save()
+
+            user_report = UserReport.objects.get_or_create(userprofile=userprofile, report=report,
+                                                           reschedule=reschedule)[0]
+            user_report.save()
+
         context = dict()
 
         context['result'] = True
