@@ -41,29 +41,29 @@ Scheduler is a sub application developed for TWEELP  to automatically recheck  t
 
 
 
-
-
-
 ### Efficient
-FALCON uses the celery worker feature to take up multiple tasks from the user and perform it in a queue.
-We can have upto 10 celery workers at a time. This feature allows us to crawl around ten million links and scrap around one million links.
+TWEELP uses the celery worker feature to take up multiple tasks from the user and perform it in a queue.
+We can have upto 10 celery workers at a time. This feature allows us to use the twitter api capabilities to fetch around thousands of tweets for all TWEELP users parallely.
 
 
 ## How to Install
 - Create virtual enviorement, then activate it.
-- Create ```.env``` file and add ```export SOCIAL_AUTH_TWITTER_KEY=
-export SOCIAL_AUTH_TWITTER_SECRET=
-export ACCESS_KEY=
-export ACCESS_SECRET=
-export ACCOUNT_SID=
-export AUTH_TOKEN=```
+- Create ```.env``` file and add ```export SOCIAL_AUTH_TWITTER_KEY=```
+```export SOCIAL_AUTH_TWITTER_SECRET=```
+```export ACCESS_KEY=```
+```export ACCESS_SECRET=```
+```export ACCOUNT_SID=```
+```export AUTH_TOKEN=```
 - Install all the requirements file, ``` pip install -r requirements.txt```
+- Run TWEELP, ```python manage.py runserver``` after migrating ```python manage.py migrate```
+
+### Follow below steps to setup celery worker
 - Setup RabbitMQ server for broker service, ``` docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-management```
 - start your rabbitmq broker service.
 - In falcon setting change ```CELERY_BROKER_URL = 'your_rabbitmq_address'```, if your not using the default port for RabbitMQ.
 - Run celery worker, ```celery -A falcon worker -l info```
 - For first time usage, ```python manage.py migrate``` and create admin ```python manage.py createsuperuser```
-- Run FALCON, ```python manage.py runserver```
+- Run TWEELP, ```python manage.py runserver```
 
 
 
