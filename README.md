@@ -7,7 +7,7 @@
 See installation [here](#how-to-install)
 
 ## What is this?
-TWEELP is an AI based SaaS web data integration (WDI) platform which send alerts for Disaster/Crime to the twitteruser as well as local agency for them to investigate/help. It converts the unstructered web data into structured format by extracting, preparing and integrating web data in areas of crime, natural disasters, etc for consumption in criminal and GEO helping investigation agencies. It takes full ability of Twitter API to fulfill its job.
+TWEELP is an AI based SaaS web data integration (WDI) platform which send alerts for Disaster/Crime to the twitter user as well as local agency for them to investigate/help. It converts the unstructered web data into structured format by extracting, preparing and integrating web data in areas of crime, natural disasters, etc for consumption in criminal and GEO helping investigation agencies. It takes full ability of Twitter API to fulfill its job.
 
 TWEELP also provides a visual environment for automating the workflow of extracting and transforming web data using the twitter api. After gaining insights from  the tweets of people from a particular location where disaster, crimes etc started to gain interest, the web data extraction module provides a visual environment for designing automated workflows for harvesting data, going beyond HTML/XML parsing of static content to automate end user interactions yielding data that would otherwise not be immediately visible.
 
