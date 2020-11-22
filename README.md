@@ -48,12 +48,12 @@ We can have upto 10 celery workers at a time. This feature allows us to use the 
 
 ## How to Install
 - Create virtual enviorement, then activate it.
-- Create ```.env``` file and add ```export SOCIAL_AUTH_TWITTER_KEY=```
-```export SOCIAL_AUTH_TWITTER_SECRET=```
-```export ACCESS_KEY=```
-```export ACCESS_SECRET=```
-```export ACCOUNT_SID=```
-```export AUTH_TOKEN=```
+- Create ```.env``` file and add ```export SOCIAL_AUTH_TWITTER_KEY=your_twitter_key```
+```export SOCIAL_AUTH_TWITTER_SECRET=your_twitter_secret```
+```export ACCESS_KEY=your_twitter_access_key```
+```export ACCESS_SECRET=your_twitter_access_secret```
+```export ACCOUNT_SID=your_twilio_account_sid```
+```export AUTH_TOKEN=your_twilio_auth_token```
 - Install all the requirements file, ``` pip install -r requirements.txt```
 - Run TWEELP, ```python manage.py runserver``` after migrating ```python manage.py migrate```
 
