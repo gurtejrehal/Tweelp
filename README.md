@@ -1,7 +1,5 @@
 # CODECHELLA 2020
 
-## SK216: Data Crawlers to crawl keywords in area of crime, child abuse, woman abuse etc.
-
 ## TWEELP - Twitter for Help
 
 
@@ -22,6 +20,9 @@ TWEELP uses NLP to cleanse the data. The AI Model is capable of geolocating the 
 Scheduler is a sub application developed for TWEELP  to automatically recheck  the authenticity of existing disasters or crime so that if any new report is found, it checks whether the old report was correct or not. By default scheduler runs after every 3 days which can otherwise be set to the user's choice.
 
 
+![Screenshot from 2020-11-22 11-07-24](https://user-images.githubusercontent.com/28597524/99896047-f1f38000-2cb2-11eb-8d49-5ac5843e25c4.png "TWEELP")
+
+
 ## Features
 - Structured data
 - SMS & Email alerts to user of disaster prone location. 
@@ -38,7 +39,6 @@ Scheduler is a sub application developed for TWEELP  to automatically recheck  t
 - Media data AI Processing
 - Scalable to search Thousands of query using Celery Workers!
 
-![collage (1)](https://user-images.githubusercontent.com/28597524/89094557-b4f13e00-d3e2-11ea-8bb6-13c6b3111271.jpg "FALCON Results")
 
 
 
