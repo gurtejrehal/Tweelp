@@ -20,14 +20,11 @@ TWEELP uses NLP to cleanse the data. The AI Model is capable of geolocating the 
 Scheduler is a sub application developed for TWEELP  to automatically recheck  the authenticity of existing disasters or crime so that if any new report is found, it checks whether the old report was correct or not. By default scheduler runs after every 3 days which can otherwise be set to the user's choice.
 
 
-![Screenshot from 2020-11-22 11-07-24](https://user-images.githubusercontent.com/28597524/99896047-f1f38000-2cb2-11eb-8d49-5ac5843e25c4.png "TWEELP")
-
 ## Deployed on Pythonanywhere
 The first version of TWEELP (only a demo version) is deployed, it is limited to threaded few results. AI tasks and CELERY workers are disabled due to free hosting service provider. To experience TWEELP to its full capability please [install](#how-to-install) it and use.
 
 Deployed [here](https://tweelp.pythonanywhere.com/ "here").
 
-[![Deploy](https://www.pythonanywhere.com/static/anywhere/images/PA-logo.svg)](http://sih2020sk216slytherin.pythonanywhere.com)
 
 ### Test User
 username - codechella
