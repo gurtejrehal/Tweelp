@@ -64,6 +64,7 @@ We can have upto 10 celery workers at a time. This feature allows us to use the 
     export ACCESS_SECRET=your_twitter_access_secret
     export ACCOUNT_SID=your_twilio_account_sid
     export AUTH_TOKEN=your_twilio_auth_token```
+    
 - Install all the requirements file, ``` pip install -r requirements.txt```
 - Run TWEELP, ```python manage.py runserver``` after migrating ```python manage.py migrate```
 
